@@ -1,0 +1,21 @@
+# Configuración privada
+config/db.php
+
+# Variables de entorno
+.env
+
+# Archivos de Mac
+.DS_Store
+
+# Logs
+*.log
+
+# Uploads
+uploads/cv/*
+uploads/facturas/*
+uploads/contratos/*
+
+# Mantener las carpetas
+!uploads/cv/.gitkeep
+!uploads/facturas/.gitkeep
+!uploads/contratos/.gitkeep
