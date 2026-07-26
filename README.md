@@ -170,6 +170,16 @@ La estructura del archivo agrupa los estilos correspondientes al encabezado, la 
 
 Además del diseño visual, la hoja de estilos incorpora variables CSS para reutilizar colores y valores comunes, así como transiciones, efectos de interacción y adaptaciones para distintos tamaños de pantalla, mejorando la experiencia de usuario y simplificando futuras modificaciones.
 
+
+### Lógica JavaScript principal
+
+El archivo `assets/js/main.js` concentra el comportamiento dinámico de la página principal. Su código está organizado en módulos independientes mediante funciones autoejecutables (IIFE), de forma que cada bloque implementa una única responsabilidad sin contaminar el ámbito global.
+
+Entre las funcionalidades implementadas se encuentran el efecto parallax de la portada, la animación interactiva del robot siguiendo el movimiento del cursor y la aparición progresiva de los elementos durante el desplazamiento de la página mediante `IntersectionObserver`, priorizando el rendimiento mediante el uso de `requestAnimationFrame` y eventos configurados como `passive`.
+
+Esta organización facilita el mantenimiento del código, mejora la legibilidad y permite ampliar la funcionalidad de la aplicación sin afectar al resto de componentes.
+
+
 ## Estado actual
 
 - ✅ Arquitectura del proyecto definida.
@@ -196,7 +206,7 @@ Este proyecto se desarrolla de forma progresiva mediante el uso de Git y GitHub.
 - [x] Crear los componentes reutilizables (`header.php` y `footer.php`).
 - [x] Desarrollar la página principal (`index.php`).
 - [x] Diseñar la hoja de estilos principal (`style.css`).
-- [ ] Implementar la lógica JavaScript (`main.js`).
+- [x] Implementar la lógica JavaScript (`main.js`).
 - [ ] Implementar el sistema de autenticación (`auth.php`).
 
 ### Fase 4 · Zona pública
