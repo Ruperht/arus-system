@@ -171,6 +171,7 @@ La estructura del archivo agrupa los estilos correspondientes al encabezado, la 
 Además del diseño visual, la hoja de estilos incorpora variables CSS para reutilizar colores y valores comunes, así como transiciones, efectos de interacción y adaptaciones para distintos tamaños de pantalla, mejorando la experiencia de usuario y simplificando futuras modificaciones.
 
 
+
 ### Lógica JavaScript principal
 
 El archivo `assets/js/main.js` concentra el comportamiento dinámico de la página principal. Su código está organizado en módulos independientes mediante funciones autoejecutables (IIFE), de forma que cada bloque implementa una única responsabilidad sin contaminar el ámbito global.
@@ -178,6 +179,15 @@ El archivo `assets/js/main.js` concentra el comportamiento dinámico de la pági
 Entre las funcionalidades implementadas se encuentran el efecto parallax de la portada, la animación interactiva del robot siguiendo el movimiento del cursor y la aparición progresiva de los elementos durante el desplazamiento de la página mediante `IntersectionObserver`, priorizando el rendimiento mediante el uso de `requestAnimationFrame` y eventos configurados como `passive`.
 
 Esta organización facilita el mantenimiento del código, mejora la legibilidad y permite ampliar la funcionalidad de la aplicación sin afectar al resto de componentes.
+
+### Sistema de autenticación
+
+El archivo `includes/auth.php` centraliza las funciones relacionadas con la autenticación y el control de acceso de la aplicación. Su objetivo es evitar duplicar lógica entre las distintas áreas privadas y proporcionar un único punto de mantenimiento para la gestión de sesiones.
+
+Entre sus responsabilidades se incluyen el inicio y cierre de sesión, la comprobación del estado de autenticación, la protección de páginas privadas y la validación de roles de usuario. Además, incorpora medidas de seguridad como la regeneración del identificador de sesión tras el inicio de sesión y la correcta destrucción de la sesión durante el cierre.
+
+Esta organización facilita reutilizar la misma lógica de autenticación en toda la aplicación, mejora la mantenibilidad del proyecto y favorece una gestión de accesos consistente.
+
 
 
 ## Estado actual
@@ -207,7 +217,7 @@ Este proyecto se desarrolla de forma progresiva mediante el uso de Git y GitHub.
 - [x] Desarrollar la página principal (`index.php`).
 - [x] Diseñar la hoja de estilos principal (`style.css`).
 - [x] Implementar la lógica JavaScript (`main.js`).
-- [ ] Implementar el sistema de autenticación (`auth.php`).
+- [x] Implementar el sistema de autenticación (`auth.php`).
 
 ### Fase 4 · Zona pública
 
