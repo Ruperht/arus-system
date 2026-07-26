@@ -162,6 +162,14 @@ Para garantizar una salida segura, todos los datos procedentes de la base de dat
 
 La página reutiliza los componentes `includes/header.php` e `includes/footer.php` mediante `require`, lo que evita duplicar código HTML y permite que cualquier modificación futura en la cabecera o el pie de página se aplique automáticamente a todas las páginas que compartan dichos componentes.
 
+### Hoja de estilos principal
+
+El archivo `assets/css/style.css` centraliza toda la apariencia visual de la aplicación. Define la identidad gráfica de ARUS SYSTEM mediante una única hoja de estilos organizada por secciones, facilitando el mantenimiento y la evolución del diseño.
+
+La estructura del archivo agrupa los estilos correspondientes al encabezado, la portada principal, las secciones de servicios y planes, los formularios, el pie de página y el comportamiento responsive, manteniendo una organización coherente y fácil de localizar.
+
+Además del diseño visual, la hoja de estilos incorpora variables CSS para reutilizar colores y valores comunes, así como transiciones, efectos de interacción y adaptaciones para distintos tamaños de pantalla, mejorando la experiencia de usuario y simplificando futuras modificaciones.
+
 ## Estado actual
 
 - ✅ Arquitectura del proyecto definida.
@@ -187,7 +195,7 @@ Este proyecto se desarrolla de forma progresiva mediante el uso de Git y GitHub.
 
 - [x] Crear los componentes reutilizables (`header.php` y `footer.php`).
 - [x] Desarrollar la página principal (`index.php`).
-- [ ] Diseñar la hoja de estilos principal (`style.css`).
+- [x] Diseñar la hoja de estilos principal (`style.css`).
 - [ ] Implementar la lógica JavaScript (`main.js`).
 - [ ] Implementar el sistema de autenticación (`auth.php`).
 
