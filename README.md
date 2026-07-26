@@ -137,6 +137,20 @@ ProyectoDAM/
 | `uploads/` | Archivos subidos por los usuarios. |
 | `worker/` | Área privada para los trabajadores del sistema. |
 
+### Componentes reutilizables
+
+Los archivos `includes/header.php` e `includes/footer.php` contienen la estructura común que comparten las distintas páginas de la aplicación. Se mantienen separados del contenido de cada página para evitar repetir el mismo código HTML y facilitar el mantenimiento del proyecto.
+
+Cada página puede incorporar estos componentes mediante `require`, de forma que cualquier cambio futuro en la cabecera o en el pie de página se realice una sola vez y se aplique automáticamente a todas las landing pages que los utilicen. Esto permite mantener una estructura visual coherente y evita tener que modificar cada página de forma individual.
+
+```php
+<?php require_once __DIR__ . '/includes/header.php'; ?>
+
+<!-- Contenido específico de la página -->
+
+<?php require_once __DIR__ . '/includes/footer.php'; ?>
+```
+
 ## Estado actual
 
 - ✅ Arquitectura del proyecto definida.
@@ -160,11 +174,11 @@ Este proyecto se desarrolla de forma progresiva mediante el uso de Git y GitHub.
 
 ### Fase 3 · Base de la aplicación
 
-- [ ] Implementar el sistema de autenticación (`auth.php`).
-- [ ] Crear los componentes reutilizables (`header.php` y `footer.php`).
+- [x] Crear los componentes reutilizables (`header.php` y `footer.php`).
 - [ ] Desarrollar la página principal (`index.php`).
 - [ ] Diseñar la hoja de estilos principal (`style.css`).
 - [ ] Implementar la lógica JavaScript (`main.js`).
+- [ ] Implementar el sistema de autenticación (`auth.php`).
 
 ### Fase 4 · Zona pública
 
