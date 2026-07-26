@@ -143,6 +143,7 @@ Los archivos `includes/header.php` e `includes/footer.php` contienen la estructu
 
 Cada página puede incorporar estos componentes mediante `require`, de forma que cualquier cambio futuro en la cabecera o en el pie de página se realice una sola vez y se aplique automáticamente a todas las landing pages que los utilicen. Esto permite mantener una estructura visual coherente y evita tener que modificar cada página de forma individual.
 
+
 ```php
 <?php require_once __DIR__ . '/includes/header.php'; ?>
 
@@ -150,6 +151,16 @@ Cada página puede incorporar estos componentes mediante `require`, de forma que
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>
 ```
+
+### Página principal
+
+El archivo `index.php` constituye el punto de entrada público de ARUS SYSTEM y actúa como la landing page principal de la aplicación. Desde esta página se presenta el proyecto, los servicios ofrecidos y los planes de mantenimiento disponibles.
+
+La información mostrada en los apartados de servicios y planes se obtiene dinámicamente desde la base de datos MySQL mediante PDO, evitando mantener el contenido fijo en el código fuente y facilitando su actualización desde la base de datos.
+
+Para garantizar una salida segura, todos los datos procedentes de la base de datos se muestran utilizando funciones como `htmlspecialchars()` y `number_format()`, reduciendo riesgos de inyección de contenido y asegurando un formato consistente.
+
+La página reutiliza los componentes `includes/header.php` e `includes/footer.php` mediante `require`, lo que evita duplicar código HTML y permite que cualquier modificación futura en la cabecera o el pie de página se aplique automáticamente a todas las páginas que compartan dichos componentes.
 
 ## Estado actual
 
@@ -175,7 +186,7 @@ Este proyecto se desarrolla de forma progresiva mediante el uso de Git y GitHub.
 ### Fase 3 · Base de la aplicación
 
 - [x] Crear los componentes reutilizables (`header.php` y `footer.php`).
-- [ ] Desarrollar la página principal (`index.php`).
+- [x] Desarrollar la página principal (`index.php`).
 - [ ] Diseñar la hoja de estilos principal (`style.css`).
 - [ ] Implementar la lógica JavaScript (`main.js`).
 - [ ] Implementar el sistema de autenticación (`auth.php`).
