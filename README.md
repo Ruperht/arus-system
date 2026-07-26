@@ -31,6 +31,14 @@ ARUS SYSTEM es una plataforma web orientada a la gestión de servicios tecnológ
 - Visual Studio Code
 - XAMPP
 
+## Configuración de la base de datos
+
+La aplicación utiliza PHP para ejecutar la lógica del servidor y MySQL como sistema de gestión de bases de datos. No son tecnologías alternativas: PHP procesa las peticiones de la aplicación y se comunica con MySQL para consultar, insertar, actualizar y eliminar información.
+
+La conexión se realiza mediante PDO (PHP Data Objects), ya que proporciona una interfaz segura y consistente para trabajar con bases de datos. Además, permite utilizar consultas preparadas, reduciendo el riesgo de inyección SQL y facilitando el mantenimiento del código.
+
+El archivo `config/db.php` contiene las credenciales reales de conexión y está excluido del repositorio mediante `.gitignore`. Para facilitar la instalación del proyecto sin exponer datos privados, se incluye `config/db.example.php` como plantilla. Para configurar la aplicación, se debe copiar este archivo como `config/db.php` y sustituir los valores de ejemplo por las credenciales del entorno local.
+
 ## Estructura del proyecto
 
 ```text
@@ -146,8 +154,8 @@ Este proyecto se desarrolla de forma progresiva mediante el uso de Git y GitHub.
 
 ### Fase 2 · Configuración
 
-- [ ] Configurar la conexión con la base de datos (`db.php`).
-- [ ] Crear el archivo de ejemplo para la configuración (`db.example.php`).
+- [x] Configurar la conexión privada con la base de datos (`db.php`).
+- [x] Crear el archivo de ejemplo para la configuración (`db.example.php`).
 - [ ] Implementar la configuración global del proyecto (`config.php`).
 
 ### Fase 3 · Base de la aplicación
