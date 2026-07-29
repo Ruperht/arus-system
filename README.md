@@ -192,6 +192,14 @@ Entre sus responsabilidades se incluyen el inicio y cierre de sesión, la compro
 
 Esta organización facilita reutilizar la misma lógica de autenticación en toda la aplicación, mejora la mantenibilidad del proyecto y favorece una gestión de accesos consistente.
 
+### Página de inicio de sesión
+
+El archivo `public/login.php` implementa el sistema de autenticación de acceso a la aplicación. El formulario valida tanto el formato del correo electrónico como las credenciales introducidas, utilizando consultas preparadas mediante PDO y `password_verify()` para comprobar la contraseña almacenada de forma segura en la base de datos.
+
+Una vez autenticado el usuario, la aplicación comprueba que el rol pertenece a una lista de rutas permitidas antes de iniciar la sesión y redirigirlo al panel correspondiente (`admin`, `cliente`, `worker` o `candidato`). Este enfoque evita redirecciones no autorizadas y centraliza el control de acceso según el tipo de usuario.
+
+Además, el formulario incorpora pequeñas mejoras de experiencia de usuario y accesibilidad, como la conservación del correo electrónico tras un intento fallido de inicio de sesión, el uso de etiquetas asociadas a cada campo (`label` + `for`), atributos `autocomplete` compatibles con gestores de contraseñas y el escape de los mensajes mostrados mediante `htmlspecialchars()` para garantizar una salida segura.
+
 
 
 ## Estado actual
@@ -226,7 +234,7 @@ Este proyecto se desarrolla de forma progresiva mediante el uso de Git y GitHub.
 ### Fase 4 · Zona pública
 
 - [ ] Desarrollar el formulario de solicitud de servicios.
-- [ ] Implementar el sistema de acceso (login).
+- [x] Implementar el sistema de acceso (login).
 - [ ] Implementar la recuperación y creación de contraseña.
 - [ ] Desarrollar el formulario de candidaturas.
 
