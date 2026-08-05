@@ -39,6 +39,10 @@ La conexión se realiza mediante PDO (PHP Data Objects), ya que proporciona una 
 
 El archivo `config/db.php` contiene las credenciales reales de conexión y está excluido del repositorio mediante `.gitignore`. Para facilitar la instalación del proyecto sin exponer datos privados, se incluye `config/db.example.php` como plantilla. Para configurar la aplicación, se debe copiar este archivo como `config/db.php` y sustituir los valores de ejemplo por las credenciales del entorno local.
 
+### Catálogos auxiliares
+
+Además de las tablas principales de la aplicación, la base de datos incorpora tablas de apoyo destinadas a centralizar información reutilizable. Entre ellas se encuentra `prefijos_telefonicos`, que almacena los países, sus prefijos internacionales, las banderas correspondientes y el orden de visualización. Esta información se reutiliza dinámicamente para generar el selector de prefijos telefónicos en los distintos formularios de la aplicación, evitando mantener listas estáticas dentro del código.
+
 ## Estructura del proyecto
 
 ```text
@@ -176,6 +180,8 @@ La estructura del archivo agrupa los estilos correspondientes al encabezado, la 
 
 Además del diseño visual, la hoja de estilos incorpora variables CSS para reutilizar colores y valores comunes, así como transiciones, efectos de interacción y adaptaciones para distintos tamaños de pantalla, mejorando la experiencia de usuario y simplificando futuras modificaciones.
 
+La hoja de estilos también incorpora el diseño del selector internacional de prefijos telefónicos utilizado por los formularios públicos. El selector y el campo del número se presentan como un único control visual, manteniendo una apariencia uniforme, adaptable a dispositivos móviles y reutilizable en futuros formularios de la aplicación.
+
 ### Lógica JavaScript principal
 
 El archivo `assets/js/main.js` concentra el comportamiento dinámico de la aplicación. Su código está organizado en módulos independientes mediante funciones autoejecutables (IIFE), de forma que cada bloque implementa una única responsabilidad sin contaminar el ámbito global.
@@ -243,7 +249,7 @@ Este proyecto se desarrolla de forma progresiva mediante el uso de Git y GitHub.
 
 ### Fase 4 · Zona pública
 
-- [ ] Desarrollar el formulario de solicitud de servicios.
+- [x] Desarrollar el formulario de solicitud de servicios.
 - [x] Implementar el sistema de acceso (login).
 - [ ] Implementar la recuperación y creación de contraseña.
 - [ ] Desarrollar el formulario de candidaturas.

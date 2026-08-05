@@ -428,6 +428,7 @@ img {
     font-size: 15px;
     font-family: inherit;
     background: #fbfcfe;
+    height: 45px;
 }
 
 .form-group input:focus,
@@ -457,6 +458,35 @@ img {
     cursor: pointer;
     font-size: 16px;
     margin-top: 8px;
+}
+
+/* =========================================================
+   TELÉFONO CON PREFIJO INTERNACIONAL
+   ========================================================= */
+.telefono-group {
+    display: flex;
+    width: 100%;
+}
+
+.telefono-group select {
+    flex: 0 0 42%;
+    min-width: 170px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: 0;
+}
+
+.telefono-group input[type="tel"] {
+    flex: 1;
+    min-width: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.telefono-group select:focus,
+.telefono-group input[type="tel"]:focus {
+    position: relative;
+    z-index: 1;
 }
 
 /* =========================================================
@@ -590,5 +620,10 @@ img {
 
     .main-nav a:not(.btn-nav) {
         display: none;
+    }
+
+    .telefono-group select {
+        flex-basis: 46%;
+        min-width: 140px;
     }
 }
