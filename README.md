@@ -125,7 +125,7 @@ ProyectoDAM/
 
 Actualmente la aplicación utiliza únicamente la imagen principal del robot como elemento gráfico integrado en la interfaz. El resto de imágenes almacenadas en `assets/img/` se conservan de forma temporal como recursos de apoyo para futuras mejoras visuales, animaciones o posibles variantes del diseño.
 
-Algunos recursos gráficos, como los logotivos definitivos del proyecto, no forman parte del repositorio público por tratarse de elementos de identidad visual actualmente en desarrollo.
+Algunos recursos gráficos, como los logotipos definitivos del proyecto, no forman parte del repositorio público por tratarse de elementos de identidad visual actualmente en desarrollo.
 
 En caso de que estas imágenes no resulten necesarias durante el desarrollo del proyecto, serán eliminadas para mantener el repositorio limpio y contener únicamente los archivos realmente utilizados por la aplicación.
 
@@ -178,9 +178,11 @@ Además del diseño visual, la hoja de estilos incorpora variables CSS para reut
 
 ### Lógica JavaScript principal
 
-El archivo `assets/js/main.js` concentra el comportamiento dinámico de la página principal. Su código está organizado en módulos independientes mediante funciones autoejecutables (IIFE), de forma que cada bloque implementa una única responsabilidad sin contaminar el ámbito global.
+El archivo `assets/js/main.js` concentra el comportamiento dinámico de la aplicación. Su código está organizado en módulos independientes mediante funciones autoejecutables (IIFE), de forma que cada bloque implementa una única responsabilidad sin contaminar el ámbito global.
 
-Entre las funcionalidades implementadas se encuentran el efecto parallax de la portada, la animación interactiva del robot siguiendo el movimiento del cursor y la aparición progresiva de los elementos durante el desplazamiento de la página mediante `IntersectionObserver`, priorizando el rendimiento mediante el uso de `requestAnimationFrame` y eventos configurados como `passive`.
+Entre las funcionalidades implementadas se encuentran el efecto parallax de la portada, la animación interactiva del robot siguiendo el movimiento del cursor, la aparición progresiva de los elementos durante el desplazamiento de la página mediante `IntersectionObserver` y la gestión del formulario modal de inicio de sesión.
+
+El sistema de autenticación se integra directamente sobre la página principal mediante JavaScript, que intercepta el botón **Iniciar sesión** para mostrar un formulario emergente sin abandonar la landing page. El modal puede cerrarse mediante el botón de cierre, pulsando sobre el fondo oscurecido o utilizando la tecla `Escape`, proporcionando una experiencia de usuario más fluida.
 
 Esta organización facilita el mantenimiento del código, mejora la legibilidad y permite ampliar la funcionalidad de la aplicación sin afectar al resto de componentes.
 
@@ -192,13 +194,21 @@ Entre sus responsabilidades se incluyen el inicio y cierre de sesión, la compro
 
 Esta organización facilita reutilizar la misma lógica de autenticación en toda la aplicación, mejora la mantenibilidad del proyecto y favorece una gestión de accesos consistente.
 
-### Página de inicio de sesión
+### Sistema de inicio de sesión
 
-El archivo `public/login.php` implementa el sistema de autenticación de acceso a la aplicación. El formulario valida tanto el formato del correo electrónico como las credenciales introducidas, utilizando consultas preparadas mediante PDO y `password_verify()` para comprobar la contraseña almacenada de forma segura en la base de datos.
+El sistema de autenticación se distribuye entre los archivos `public/login.php`, `index.php`, `includes/auth.php`, `includes/header.php`, `includes/footer.php`, `assets/js/main.js` y `assets/css/style.css`, permitiendo integrar el acceso de usuarios directamente sobre la página principal mediante un formulario modal.
 
-Una vez autenticado el usuario, la aplicación comprueba que el rol pertenece a una lista de rutas permitidas antes de iniciar la sesión y redirigirlo al panel correspondiente (`admin`, `cliente`, `worker` o `candidato`). Este enfoque evita redirecciones no autorizadas y centraliza el control de acceso según el tipo de usuario.
+Al pulsar el botón **Iniciar sesión**, JavaScript intercepta la navegación y muestra un formulario emergente centrado sobre la landing page sin abandonar la página actual. El formulario solicita el rol del usuario, su dirección de correo electrónico y la contraseña.
 
-Además, el formulario incorpora pequeñas mejoras de experiencia de usuario y accesibilidad, como la conservación del correo electrónico tras un intento fallido de inicio de sesión, el uso de etiquetas asociadas a cada campo (`label` + `for`), atributos `autocomplete` compatibles con gestores de contraseñas y el escape de los mensajes mostrados mediante `htmlspecialchars()` para garantizar una salida segura.
+El archivo `public/login.php` actúa exclusivamente como procesador de autenticación. Valida los datos recibidos, comprueba el formato del correo electrónico, verifica que el rol seleccionado sea válido y consulta la base de datos mediante sentencias preparadas con PDO. La contraseña se valida utilizando `password_verify()` sobre el hash almacenado en la base de datos.
+
+Cuando las credenciales son correctas, la aplicación inicia la sesión mediante las funciones centralizadas en `includes/auth.php`, actualiza la fecha de la última actividad del usuario y redirige automáticamente al panel correspondiente según su rol (`admin`, `cliente`, `worker` o `candidato`).
+
+Si la autenticación falla, el sistema almacena temporalmente un mensaje genérico y los datos necesarios en variables de sesión, vuelve automáticamente a la página principal y reabre el formulario modal. Este comportamiento evita revelar qué dato concreto es incorrecto, reforzando la seguridad frente a posibles intentos de enumeración de usuarios.
+
+El archivo `includes/header.php` mantiene una ruta real hacia `public/login.php` como alternativa si JavaScript no se carga, mientras que `includes/footer.php` incorpora una versión dinámica del archivo JavaScript mediante `filemtime()` para evitar problemas de caché durante el desarrollo.
+
+La gestión de sesiones, el control de acceso y la protección de las áreas privadas permanecen centralizados en `includes/auth.php`, evitando duplicar lógica entre los distintos módulos de la aplicación y facilitando el mantenimiento del proyecto.
 
 
 

@@ -8,6 +8,5 @@
         </div>
     </footer>
 
-    <script src="/MY_PROJECTS/ProyectoDAM/assets/js/main.js"></script> <!----------------------------------- Carga el archivo JavaScript principal del sitio web.-->
-</body>
+    <script src="/MY_PROJECTS/ProyectoDAM/assets/js/main.js?v=<?= filemtime($_SERVER['DOCUMENT_ROOT'] . '/MY_PROJECTS/ProyectoDAM/assets/js/main.js') ?>"></script> <!----------------------------------- Carga siempre la última versión del archivo JavaScript, evitando problemas de caché del navegador.--> 
 </html>

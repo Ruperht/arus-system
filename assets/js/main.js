@@ -72,3 +72,36 @@
     tarjetas.forEach((tarjeta) => observador.observe(tarjeta));
 })();
 
+// =========================================================
+// 4. POPUP DE INICIO DE SESIÓN
+// =========================================================
+(function () { //----------------------------------------------------------------------- Se crea otra función anónima y la ejecuta inmediatamente (IIFE) para evitar contaminar el scope global.
+    const loginModal = document.getElementById('loginModal'); //------------------------ Busca el popup de inicio de sesión.
+    const openLoginModal = document.getElementById('openLoginModal'); //---------------- Busca el botón del header que abre el popup.
+    if (!loginModal || !openLoginModal) return; //-------------------------------------- Si no encuentra el popup o el botón, sale de la función.
+
+    const closeLoginModal = loginModal.querySelectorAll('[data-login-close]'); //------- Busca todos los elementos que tengan el atributo data-login-close para cerrar el popup.
+
+    function abrirLogin(event) {
+        event.preventDefault(); //------------------------------------------------------- Evita que el enlace navegue directamente a login.php.
+        loginModal.classList.add('visible'); //----------------------------------------- Añade la clase visible para mostrar el popup mediante CSS.
+        loginModal.setAttribute('aria-hidden', 'false'); //----------------------------- Indica que el popup está visible para las tecnologías de asistencia.
+    }
+
+    function cerrarLogin() {
+        loginModal.classList.remove('visible'); //-------------------------------------- Elimina la clase visible para ocultar el popup.
+        loginModal.setAttribute('aria-hidden', 'true'); //------------------------------ Indica que el popup está oculto para las tecnologías de asistencia.
+    }
+
+    openLoginModal.addEventListener('click', abrirLogin); //----------------------------- Abre el popup al pulsar el botón Iniciar sesión.
+
+    closeLoginModal.forEach((elemento) => { //------------------------------------------ Recorre los elementos que pueden cerrar el popup.
+        elemento.addEventListener('click', cerrarLogin); //----------------------------- Cierra el popup al pulsar la X o el fondo oscuro.
+    });
+
+    document.addEventListener('keydown', (event) => { //-------------------------------- Escucha las teclas pulsadas en la página.
+        if (event.key === 'Escape' && loginModal.classList.contains('visible')) { //----- Comprueba si se pulsa Escape mientras el popup está visible.
+            cerrarLogin(); //------------------------------------------------------------ Cierra el popup.
+        }
+    });
+})();

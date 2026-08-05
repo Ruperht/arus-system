@@ -1,5 +1,16 @@
 <?php
 require 'config/db.php'; //----------------------------------------------------------------- Llamada a la base de datos.
+require_once 'includes/auth.php';
+
+$loginError = $_SESSION['login_error'] ?? '';
+$loginEmail = $_SESSION['login_email'] ?? '';
+$loginRole = $_SESSION['login_role'] ?? '';
+
+unset(
+    $_SESSION['login_error'],
+    $_SESSION['login_email'],
+    $_SESSION['login_role']
+);
 $titulo_pagina = 'Inicio'; //--------------------------------------------------------------- Título de la página, antes del header para que se pueda usar en el <title> de la etiqueta <head>.
 require 'includes/header.php'; //----------------------------------------------------------- Llamada al header.
 
@@ -11,6 +22,47 @@ $servicios = $pdo->query("
     ORDER BY id ASC
 ")->fetchAll(); //-------------------------------------------------------------------------- Solo se muestran los servicios que tienen mostrar_en_home = 1. fetchAll() devuelve todas las columnas de cada fila como un array asociativo.  
 ?>
+
+<!-- ============ POPUP INICIO DE SESIÓN ============ -->
+<div class="login-modal<?= isset($_GET['login']) ? ' visible' : '' ?>"
+    id="loginModal"
+    aria-hidden="<?= isset($_GET['login']) ? 'false' : 'true' ?>">
+    <div class="login-modal-backdrop" data-login-close></div>
+
+    <div class="login-modal-content" role="dialog" aria-modal="true" aria-labelledby="loginModalTitle">
+        <button type="button" class="login-modal-close" aria-label="Cerrar" data-login-close>&times;</button>
+
+        <h2 id="loginModalTitle">Iniciar sesión</h2>
+        <?php if ($loginError): ?>
+            <p class="login-error"><?= htmlspecialchars($loginError) ?></p>
+        <?php endif; ?>
+
+        <form method="post" action="public/login.php">
+            <div class="form-group">
+                <label for="loginRol">Rol</label>
+                <select id="loginRol" name="rol" required>
+                    <option value="">Selecciona tu rol</option>
+                    <option value="admin" <?= $loginRole === 'admin' ? 'selected' : '' ?>>Administrador</option>
+                    <option value="cliente" <?= $loginRole === 'cliente' ? 'selected' : '' ?>>Cliente</option>
+                    <option value="candidato" <?= $loginRole === 'candidato' ? 'selected' : '' ?>>Candidato</option>
+                    <option value="worker" <?= $loginRole === 'worker' ? 'selected' : '' ?>>Trabajador</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="loginEmail">Email</label>
+                <input id="loginEmail" type="email" name="email" value="<?= htmlspecialchars($loginEmail) ?>" autocomplete="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="loginPassword">Contraseña</label>
+                <input id="loginPassword" type="password" name="password" autocomplete="current-password" required>
+            </div>
+
+            <button type="submit" class="btn-primary login-modal-submit">Iniciar sesión</button>
+        </form>
+    </div>
+</div>
 
 <!-- ============ HERO ============ -->
 <section class="hero" id="hero">
@@ -98,4 +150,4 @@ $servicios = $pdo->query("
     <p class="nota-iva">Precios sin IVA (21%). El importe final se detalla en el presupuesto.</p>
 </section>
 
-<?php require 'includes/footer.php'; ?> <!---------------------------------------------------- Llamada al footer.
+<?php require 'includes/footer.php'; ?> <!---------------------------------------------------- Llamada al footer -->

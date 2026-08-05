@@ -2,23 +2,31 @@
 require_once '../includes/auth.php'; //------------------------------------------------- Incluye el archivo de autenticación para manejar la sesión y las funciones relacionadas con el login.
 require_once '../config/db.php'; //----------------------------------------------------- Incluye el archivo de configuración de la base de datos para poder realizar consultas SQL.
 
-$error = ''; //------------------------------------------------------------------------- Crea una variable vacía donde se guardará cualquier mensaje de error.
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') { //---------------------------------------- Si se abre login.php directamente, vuelve al index y solicita abrir el popup.
+    header('Location: /MY_PROJECTS/ProyectoDAM/index.php?login=1');
+    exit;
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') { //----------------------------------------- Comprueba si el formulario ha sido enviado mediante el método POST. Cuando pulsa Iniciar sesión, se envía un POST con los datos del formulario.
     $email = trim($_POST['email'] ?? ''); //-------------------------------------------- Obtiene el email del formulario, eliminando espacios en blanco al inicio y al final. Si no se envía, asigna una cadena vacía.
     $password = $_POST['password'] ?? ''; //-------------------------------------------- Obtiene la contraseña del formulario. Si no se envía, asigna una cadena vacía.
+    $rol = $_POST['rol'] ?? ''; //---------------------------------------------------------- Obtiene el rol seleccionado en el popup. Si no se envía, asigna una cadena vacía.
 
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) { //-------------------------------- Validamos el formato del email.
-        $error = 'Email o contraseña incorrectos.';
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL) || !in_array($rol, ['admin', 'cliente', 'candidato', 'worker'], true)) { //-------------------------------- Validamos el formato del email y el rol.
+        $_SESSION['login_error'] = 'Rol, email o contraseña incorrectos.'; //---------------- Guarda un mensaje genérico para no revelar qué credencial es incorrecta.
+        $_SESSION['login_email'] = $email; //-------------------------------------------------- Conserva temporalmente el email introducido.
+        $_SESSION['login_role'] = $rol; //----------------------------------------------------- Conserva temporalmente el rol seleccionado.
+        header('Location: /MY_PROJECTS/ProyectoDAM/index.php?login=1'); //-------------------- Vuelve al index y reabre el popup mostrando el error.
+        exit;
     } else {
 
         $stmt = $pdo->prepare("
-            SELECT id, email, password_hash, rol
+            SELECT id, nombre, email, password_hash, rol
             FROM usuarios
-            WHERE email = ?
+            WHERE email = ? AND rol = ?
             LIMIT 1
         "); //-------------------------------------------------------------------------- Prepara una consulta SQL.
-        $stmt->execute([$email]); //---------------------------------------------------- Sustituye de forma segura el ? por el valor de $email.
+        $stmt->execute([$email, $rol]); //--------------------------------------------- Sustituye de forma segura los interrogantes por el email y el rol seleccionados.
         $usuario = $stmt->fetch(); //--------------------------------------------------- Obtiene el primer resultado de la consulta, que será un array asociativo con los datos del usuario.
 
         if ($usuario && password_verify($password, $usuario['password_hash'])) { //----- Comprueba si el usuario y la contraseña escrita coinciden con el hash guardado en la base de datos.
@@ -32,7 +40,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') { //---------------------------------
 
             // Comprobamos que el rol tenga una ruta permitida
             if (!isset($rutas[$usuario['rol']])) { //----------------------------------- Busca si el rol del usuario existe como clave dentro de $rutas.
-                $error = 'El rol del usuario no es válido.';
+                $_SESSION['login_error'] = 'Rol, email o contraseña incorrectos.';
+                $_SESSION['login_email'] = $email;
+                $_SESSION['login_role'] = $rol;
+                header('Location: /MY_PROJECTS/ProyectoDAM/index.php?login=1');
+                exit;
             } else {
                 iniciarSesion($usuario); //--------------------------------------------- Llama a la función iniciarSesion() para guardar los datos del usuario en la sesión y regenerar el ID de sesión.
 
@@ -46,46 +58,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') { //---------------------------------
                 exit;
             }
         } else {
-            $error = 'Email o contraseña incorrectos.';
+            $_SESSION['login_error'] = 'Rol, email o contraseña incorrectos.';
+            $_SESSION['login_email'] = $email;
+            $_SESSION['login_role'] = $rol;
+            header('Location: /MY_PROJECTS/ProyectoDAM/index.php?login=1');
+            exit;
         }
     }
 }
-?>
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <title>Iniciar sesión — ARUS SYSTEM</title>
-</head>
-
-<body>
-    <h2>Iniciar sesión</h2>
-
-    <?php if ($error): ?>
-        <p style="color:red;"><?= htmlspecialchars($error) ?></p>
-    <?php endif; ?>
-
-    <form method="post">
-        <label for="email">Email:</label>
-        <input
-            id="email"
-            type="email"
-            name="email"
-            value="<?= htmlspecialchars($email ?? '') ?>"
-            autocomplete="email"
-            required>
-
-        <label for="password">Contraseña:</label>
-        <input
-            id="password"
-            type="password"
-            name="password"
-            autocomplete="current-password"
-            required>
-
-        <button type="submit">Iniciar sesión</button>
-    </form>
-</body>
-
-</html>

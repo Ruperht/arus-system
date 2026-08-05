@@ -19,7 +19,7 @@ function estaLogueado(): bool //--------------------------------------------- Co
 function requiereLogin(): void //-------------------------------------------- Impide acceder a una página si el usuario no ha iniciado sesión.
 {
     if (!estaLogueado()) {
-        header('Location: /MY_PROJECTS/ProyectoDAM/public/login.php'); //---- Si no está logueado, redirige a la página de login.
+        header('Location: /MY_PROJECTS/ProyectoDAM/index.php?login=1'); //---- Si no está logueado, vuelve a la página principal y abre el popup de inicio de sesión.
         exit;
     }
 }

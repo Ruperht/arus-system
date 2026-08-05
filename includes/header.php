@@ -19,7 +19,7 @@
                 <a href="/MY_PROJECTS/ProyectoDAM/index.php#servicios">Servicios</a>
                 <a href="/MY_PROJECTS/ProyectoDAM/index.php#planes">Planes</a>
                 <a href="/MY_PROJECTS/ProyectoDAM/public/candidatura.php">Trabaja con nosotros</a>
-                <a href="/MY_PROJECTS/ProyectoDAM/public/login.php" class="btn-nav">Iniciar sesión</a>
+                <a href="/MY_PROJECTS/ProyectoDAM/public/login.php" class="btn-nav" id="openLoginModal">Iniciar sesión</a>
             </nav>
         </div>
     </header>
