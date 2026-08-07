@@ -100,7 +100,8 @@ ProyectoDAM/
 ├── includes/
 │   ├── auth.php
 │   ├── footer.php
-│   └── header.php
+│   ├── header.php
+│   └── validaciones.php
 │
 ├── public/
 │   ├── candidatura.php
@@ -151,6 +152,8 @@ En caso de que estas imágenes no resulten necesarias durante el desarrollo del 
 
 Los archivos `includes/header.php` e `includes/footer.php` contienen la estructura común que comparten las distintas páginas de la aplicación. Se mantienen separados del contenido de cada página para evitar repetir el mismo código HTML y facilitar el mantenimiento del proyecto.
 
+El archivo `includes/validaciones.php` centraliza las funciones de validación reutilizables para documentos identificativos. Actualmente contiene la validación de DNI, NIE y CIF, permitiendo que formularios como la solicitud de servicios y la candidatura compartan la misma lógica sin duplicar código. Cada formulario utiliza únicamente las validaciones que necesita.
+
 Cada página puede incorporar estos componentes mediante `require`, de forma que cualquier cambio futuro en la cabecera o en el pie de página se realice una sola vez y se aplique automáticamente a todas las landing pages que los utilicen. Esto permite mantener una estructura visual coherente y evita tener que modificar cada página de forma individual.
 
 
@@ -161,6 +164,14 @@ Cada página puede incorporar estos componentes mediante `require`, de forma que
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>
 ```
+
+### Formularios públicos
+
+El formulario `public/solicitar-servicio.php` permite registrar una solicitud de servicio y crear inicialmente la cuenta asociada al cliente. Utiliza las validaciones comunes de DNI, NIE y CIF, consulta dinámicamente los prefijos telefónicos almacenados en la base de datos y normaliza el teléfono antes de almacenarlo.
+
+El formulario `public/candidatura.php` permite iniciar el registro de un candidato utilizando DNI o NIE. Tras validar los datos, crea el usuario con rol `candidato` y registra su candidatura en la tabla `candidaturas` dentro de una misma transacción. La candidatura almacena la dirección y la presentación inicial del candidato, mientras que la carga del currículum se realizará posteriormente desde su área privada.
+
+Ambos formularios reutilizan `includes/validaciones.php`, evitando duplicar las funciones de validación de documentos y manteniendo esta lógica centralizada.
 
 ### Página principal
 
@@ -252,7 +263,7 @@ Este proyecto se desarrolla de forma progresiva mediante el uso de Git y GitHub.
 - [x] Desarrollar el formulario de solicitud de servicios.
 - [x] Implementar el sistema de acceso (login).
 - [ ] Implementar la recuperación y creación de contraseña.
-- [ ] Desarrollar el formulario de candidaturas.
+- [x] Desarrollar el formulario de candidaturas.
 
 ### Fase 5 · Paneles privados
 
